@@ -1,6 +1,73 @@
-<div class="container">
-  <div class="search">
-    <input type="text" placeholder="Buscar cidade" />
+<div class="container" *ngIf="!tempo">
+  <div class="search-box">
+    <div class="search">
+      <form #form="ngForm" class="form">
+        <input type="text" placeholder="Buscar cidade" name="busca" [(ngModel)]="busca"/>
+        <button type="submit" (click)="pesquisarCidade()">Buscar</button>
+      </form>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="texto">
+      <h3>Curitiba, PR</h3>
+      <h1>10 ºC</h1>
+      <p>Tempo limpo</p>
+      <p class="text-icon"><i class="material-icons">calendar_month</i> 21/08/2022</p>
+      <p class="text-icon"><i class="material-icons">schedule</i> 03:54</p>
+    </div>
+    <div>
+      <i class="material-symbols-outlined icone">sunny</i>
+    </div>
+    
+  </div>
+  <div class="forecasts">
+    <div class="forecast">
+      <p>Seg</p>
+      <p>22/08</p>
+      <p>17 ºC / 9 ºC</p>
+    </div>
+    <div class="forecast">
+      <p>Ter</p>
+      <p>23/08</p>
+      <p>19 ºC / 10 ºC</p>
+    </div>
+    <div class="forecast">
+      <p>Qua</p>
+      <p>24/08</p>
+      <p>14 ºC / 10 ºC</p>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="tempo">
+  <div class="search-box">
+    <div class="search">
+      <form #form="ngForm" class="form">
+        <input type="text" placeholder="Buscar cidade" name="busca" [(ngModel)]="busca"/>
+        <button type="submit" (click)="pesquisarCidade()">Buscar</button>
+      </form>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="texto">
+      <h3>{{tempo.city}}</h3>
+      <h1>{{tempo.temp}}ºC</h1>
+      <p>{{tempo.description}}</p>
+      <p>{{tempo.date}} {{tempo.time}} </p>
+    </div>
+    <div class="icone">
+      <i class="material-icons-outlined">{{tempo.condition_slug}}</i>
+    </div>
+    
+  </div>
+  <div class="forecasts">
+    <div class="forecast" *ngFor="let forecast of tempo.forecast">
+      <p>{{forecast.weekday}}</p>
+      <p>{{forecast.date}}</p>
+      <p>max {{forecast.max}}ºC</p>
+      <p>min {{forecast.min}}ºC</p>
+      <p>{{forecast.description}}</p>
+    </div>
   </div>
 </div>
 <router-outlet></router-outlet>

@@ -13,8 +13,8 @@ export class TempoService {
 
   getTempo(cidade?: String): Observable<Tempo> {
     if(!cidade) {
-      return this.http.get<Tempo>(`${API_CONFIG.apiBaseUrl}${API_CONFIG.apiKey}&user_ip=remote`);
+      return this.http.get<Tempo>(`${API_CONFIG.apiBaseUrl}${API_CONFIG.jsonFormatConfig}${API_CONFIG.customResponse}${API_CONFIG.apiKey}&user_ip=remote`);
     }
-    return this.http.get<Tempo>(`${API_CONFIG.apiBaseUrl}${API_CONFIG.apiKey}&city_name=${cidade}`);
+    return this.http.get<Tempo>(`${API_CONFIG.apiBaseUrl}${API_CONFIG.jsonFormatConfig}${API_CONFIG.customResponse}${API_CONFIG.apiKey}&city_name=${cidade}`);
   }
 }

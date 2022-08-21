@@ -1,8 +1,10 @@
 :root {
     --shadow-div: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     --shadow-input: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    --shadow-div2: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     --background-gradient: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
     --blue: #94bbe9;
+    --blue-2: #7d9fc7;
     --pink: #eeaeca;
     --text: grey;
     --font: Tahoma, sans-serif;
@@ -16,8 +18,7 @@
 }
 
 body {
-    
-    font-size: 16px;
+    font-size: 18px;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -31,30 +32,88 @@ body {
     height: 80vh;
     box-shadow: var(--shadow-div);
     border-radius: 2rem;
-    display: flex;
-    justify-content: center;
-    padding: 0rem 0rem;
 }
 
 .search {
     width: 100%;
-    margin-top: 0;
+    height: 5rem;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 2rem 2rem 0rem 0rem;
+    background-color: white;
 }
 
-.search > input {
-    width: 100%;
-    height: 3rem;
-    padding: 2.5rem;
-    border-radius: 2rem 2rem 0rem 0rem;
-    box-shadow: var(--shadow-input);
-    background-color: whitesmoke;
+.form {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+}
+
+.search > form > input {
     border: none;
     color: var(--text);
     font-size: 16px;
+    background-color: white;
+    width: 100%;
+    border: 1px solid var(--blue);
+    padding: 1rem;
+    border-radius: 1rem 0rem 0rem 1rem;
 }
 
-.search > input:focus {
+.search > form > input:focus {
     outline: none;
 }
 
+.search > form > button {
+    background-color: #94bbe9;
+    border: none;
+    padding: 1rem;
+    color: white;
+    font-size: 16px;
+    border-radius: 0rem 1rem 1rem 0rem;
+}
 
+.search > form > button:hover {
+    background-color: var(--blue-2);
+    transition: .2s;
+    cursor: pointer;
+}
+
+.main-content {
+    color: white;
+    width: 100%;
+    padding: 3rem 3rem;
+    box-shadow: var(--shadow-div);
+    background-color: var(--background-gradient);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forecasts {
+    margin: auto;
+    padding: 1rem;
+    font-size: 15px;
+    background-color: #94bbe9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-div);
+}
+
+.forecast {
+    color: whitesmoke;
+    min-width: 30%;
+    min-height: fit-content;
+    box-shadow: var(--shadow-div);
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--pink);
+}
+
+.icone {
+    font-size: 100px;
+}
+
+.text-icon {
+    align-self: baseline;
+}
