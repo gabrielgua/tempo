@@ -5,7 +5,9 @@ export interface Tempo {
     description: string
     city: string,
     condition_slug: String,
-    forecast: Forecast[]
+    forecast: Forecast[],
+    max?: number,
+    min?: number,
   }
   
   export interface Forecast {
@@ -13,5 +15,5 @@ export interface Tempo {
     weekday: string
     max: number
     min: number
-    description: string
+    condition: String
   }

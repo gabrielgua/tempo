@@ -39,35 +39,63 @@
   </div>
 </div>
 
+<div class="title">
+  <h1>Tempo <i>app</i></h1>
+</div>
 <div class="container" *ngIf="tempo">
   <div class="search-box">
     <div class="search">
       <form #form="ngForm" class="form">
         <input type="text" placeholder="Buscar cidade" name="busca" [(ngModel)]="busca"/>
-        <button type="submit" (click)="pesquisarCidade()">Buscar</button>
+        <button type="submit" (click)="pesquisarCidade()">
+          <i class="material-icons icone-buscar">search</i>
+        </button>
       </form>
     </div>
   </div>
   <div class="main-content">
     <div class="texto">
       <h3>{{tempo.city}}</h3>
-      <h1>{{tempo.temp}}ºC</h1>
+      <h1>{{tempo.temp}} ºC</h1>
+      <div class="min-max">
+        <p>{{tempo.min}} ºC / {{tempo.max}} ºC</p>
+      </div>
+      <span class="text-icon">
+        <i class="material-icons icone-menor">calendar_month</i> 
+        {{tempo.date}}
+      </span>
+      <span class="text-icon">
+        <i class="material-icons icone-menor">schedule</i> 
+        {{tempo.time}}
+      </span>
+      
+    </div>
+    <div class="img-description">
+      <i class="material-symbols-outlined icone">{{tempo.condition_slug}}</i>
       <p>{{tempo.description}}</p>
-      <p>{{tempo.date}} {{tempo.time}} </p>
     </div>
-    <div class="icone">
-      <i class="material-icons-outlined">{{tempo.condition_slug}}</i>
-    </div>
-    
   </div>
   <div class="forecasts">
     <div class="forecast" *ngFor="let forecast of tempo.forecast">
-      <p>{{forecast.weekday}}</p>
+      <div class="sub-day-forecasts">
+        <h4>{{forecast.weekday}}</h4>
+        <i class="material-icons material-symbols-outlined icone-forecast">{{forecast.condition}}</i>
+      </div>
       <p>{{forecast.date}}</p>
-      <p>max {{forecast.max}}ºC</p>
-      <p>min {{forecast.min}}ºC</p>
-      <p>{{forecast.description}}</p>
+      <div class="max-min-temp">
+        <p>max</p>
+        <p>{{forecast.max}} ºC</p>
+      </div>
+      <div class="max-min-temp">
+        <p>min</p>
+        <p>{{forecast.min}} ºC</p>
+      </div>
     </div>
+  </div>
+  <div class="footer">
+    <a href="https://github.com/gabrielgua" target="_blank" class="link">@gabrielgua</a>
+    <span class="link">|</span>
+    <a href="https://github.com/gabrielgua/tempo" target="_blank" class="link">Git do projeto</a>
   </div>
 </div>
 <router-outlet></router-outlet>

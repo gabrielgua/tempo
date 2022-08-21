@@ -29,14 +29,13 @@ body {
 
 .container {
     width: 25rem;
-    height: 80vh;
+    height: fit-content;
     box-shadow: var(--shadow-div);
     border-radius: 2rem;
 }
 
 .search {
     width: 100%;
-    height: 5rem;
     padding: 1rem 1rem 1rem 1rem;
     border-radius: 2rem 2rem 0rem 0rem;
     background-color: white;
@@ -66,9 +65,11 @@ body {
 .search > form > button {
     background-color: #94bbe9;
     border: none;
-    padding: 1rem;
+    padding: 0rem 1rem;
     color: white;
     font-size: 16px;
+    display: flex;
+    align-items: center;
     border-radius: 0rem 1rem 1rem 0rem;
 }
 
@@ -89,6 +90,25 @@ body {
     align-items: center;
 }
 
+.texto {
+    max-width: 10rem;
+}
+
+.texto > p {
+    margin-top: .2rem;
+    font-size: 15px;
+}
+
+.img-description {
+    text-align: center;
+    font-size: 15px;
+    max-width: min-content;
+}
+
+.img-description > p {
+    margin-top: 1rem;
+}
+
 .forecasts {
     margin: auto;
     padding: 1rem;
@@ -102,6 +122,7 @@ body {
 
 .forecast {
     color: whitesmoke;
+    max-width: 30%;
     min-width: 30%;
     min-height: fit-content;
     box-shadow: var(--shadow-div);
@@ -110,10 +131,68 @@ body {
     background-color: var(--pink);
 }
 
+.sub-day-forecasts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icone-forecast {
+    font-size: 28px;
+}
+
 .icone {
     font-size: 100px;
 }
 
-.text-icon {
-    align-self: baseline;
+.text-icon {   
+    display: flex;
+    align-items: center;
+    margin-top: .5rem;
+    font-size: 16px;
+    font-weight: bolder;
 }
+
+.icone-menor {
+    margin-right: .25rem;
+}
+
+.max-min-temp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    color: whitesmoke;
+    margin: 1rem;
+}
+
+.footer {
+    height: 85px;
+    background-color: white;
+    border-radius: 0rem 0rem 2rem 2rem;
+    display: flex;
+    align-items: center;
+    padding: 0rem 2rem;
+    font-size: small;
+}
+
+
+.link {
+    text-decoration: none;
+    color: grey;
+    margin-right: 1rem;
+}
+
+
+
+.min-max {
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+
+
