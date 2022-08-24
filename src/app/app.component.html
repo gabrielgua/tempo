@@ -13,7 +13,7 @@
       </form>
     </div>
   </div>
-  <div class="msg" *ngIf="mensagem">
+  <div class="msg" *ngIf="mensagem && !loading">
     <p>Não foi possível localizar a cidade.</p>
     <button (click)="erro()" >
       <i class="material-icons">close</i>

@@ -56,10 +56,12 @@ export class AppComponent implements OnInit {
 
   buscarCidadePeloNome(cidade: string, pais: string) {
     this.service.getCidadeByNome(cidade, pais).subscribe({ next: $data => {
-      if($data.length <= 0) {
-        this.erro();
+      if($data[0] == undefined) {
+        this.mensagem = true;
         this.buscarLocalizacao();
+        return;
       }
+      this.mensagem = false;
       this.cidade = $data[0];
       this.buscarTempo(this.cidade.lat, this.cidade.lon);
     }});
@@ -104,6 +106,6 @@ export class AppComponent implements OnInit {
   }
 
   erro() {
-    this.mensagem = !this.mensagem;
+    this.mensagem = false;
   }
 }
