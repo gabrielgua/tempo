@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Tempo } from './models/tempo';
-import { TempoService } from './services/tempo-service.service';
+import { Root, Tempo, Forecast, Cidade } from './models/apimodel';
+import { TempoService  } from './services/tempo-service.service';
 
 @Component({
   selector: 'app-root',
@@ -9,47 +9,101 @@ import { TempoService } from './services/tempo-service.service';
 })
 export class AppComponent implements OnInit {
 
-  tempo?: Tempo;
-  busca?: String;
+  root?: Root;
+  loading?: boolean = true;
+  mensagem?: boolean = false;
+  tempo: Tempo = new Tempo();
+  cidade?: Cidade;
+  busca: string = '';
   
   constructor(private service: TempoService) {}
 
   ngOnInit(): void {
-    this.buscarTempo(); 
+    this.buscarLocalizacao();
   }
 
-  buscarTempo(cidade?: String) {
-    this.service.getTempo(cidade).subscribe(reps => {
-      this.tempo = reps;
-      this.tempo.max = this.tempo.forecast[0].max;
-      this.tempo.min = this.tempo.forecast[0].min;
-      this.tempo.forecast.shift();
-      this.tempo.condition_slug = this.buscarIcones(this.tempo.condition_slug);
-      this.tempo.forecast.forEach(f => {
-        f.condition = this.buscarIcones(f.condition);
-      });
-      
+  buscarLocalizacao() {
+    navigator.geolocation.getCurrentPosition(success => {
+      this.buscarCidadePelasCoords(success.coords.latitude, success.coords.longitude);
+    });
+  }
+
+  buscarTempo(lat: number, lon: number) {
+    this.loading = true
+    this.service.getTempo(lat, lon).subscribe(resp => {
+      this.root = resp;
+      this.toTempo(this.root);
+      this.loading = false;
     });
   }
 
   pesquisarCidade() {
-    this.buscarTempo(this.busca);
-    this.busca = '';
+    this.loading = !this.loading;
+    if (this.busca.length > 0) {
+      if (this.busca.includes(',')) {
+        var cidade = this.busca.split(',')[0];
+        var pais = this.busca.split(',')[1];
+        this.buscarCidadePeloNome(cidade, pais);
+      } else {
+        this.buscarCidadePeloNome(this.busca, '');
+      }
+    } else {
+      this.buscarLocalizacao();
+    }
+
+    this.busca='';
   }
 
-  buscarIcones(condition_slug: String): String {
-    switch (condition_slug) {
-      case 'storm': condition_slug = 'thunderstorm'; break;
-      case 'snow':  condition_slug = 'severe_cold'; break;
-      case 'hail':  condition_slug = 'snowing'; break;
-      case 'rain': condition_slug = 'rainy'; break;
-      case 'fog': condition_slug = 'foggy'; break;
-      case 'clear_day': condition_slug = 'sunny'; break;
-      case 'cloudly_day': condition_slug = 'partly_cloudy_day'; break;
-      case 'cloudly_night': condition_slug = 'partly_cloudy_night'; break;
-      case 'none_day': condition_slug = 'sunny'; break;
-      case 'none_night': condition_slug = 'clear_night'; break;
-    }
-    return condition_slug;
+  buscarCidadePeloNome(cidade: string, pais: string) {
+    this.service.getCidadeByNome(cidade, pais).subscribe({ next: $data => {
+      if($data.length <= 0) {
+        this.erro();
+        this.buscarLocalizacao();
+      }
+      this.cidade = $data[0];
+      this.buscarTempo(this.cidade.lat, this.cidade.lon);
+    }});
+  }
+
+  buscarCidadePelasCoords(lat: number, lon: number) {
+    this.service.getCidadeByCoords(lat, lon).subscribe({ next: resp => {
+      this.cidade = resp[0];      
+      this.buscarTempo(this.cidade.lat, this.cidade.lon);
+    }})
+  }
+
+  toTempo(root: Root) {
+    if (this.cidade) {
+      this.tempo.city = this.cidade.name;
+      this.tempo.region = this.cidade.country;
+    } 
+    var locale = 'pt-br';
+    this.tempo.date = new Date(root.current.dt * 1000).toLocaleDateString(locale, { weekday: 'long', day: '2-digit' , month: '2-digit', year: 'numeric'});
+    this.tempo.time = new Date(root.current.dt * 1000).toLocaleTimeString(locale, { hour:'2-digit', minute: '2-digit'} );
+    this.tempo.temp = Math.round(root.current.temp);
+    this.tempo.description = root.current.weather[0].description;
+    this.tempo.icon = root.current.weather[0].icon;
+    this.tempo.forecast = this.addForecasts(root);
+  } 
+
+  addForecasts(root: Root): Forecast[] {
+    let list: Array<Forecast> = [];
+    var counter = 0;
+    root.daily.forEach(f => {
+      if (counter <= 3) {
+        list.push(new Forecast(new Date(f.dt * 1000).toLocaleDateString('pt-br', { day: "2-digit", month: "2-digit" }), 
+        new Date(f.dt * 1000).toLocaleDateString('pt-br', {weekday: 'short'}),
+        Math.round(f.temp.max), Math.round(f.temp.min), f.weather[0].icon));
+        counter++;
+      } 
+    })
+    this.tempo.max = list[0].max;
+    this.tempo.min = list[0].min;
+    list.shift();
+    return list;
+  }
+
+  erro() {
+    this.mensagem = !this.mensagem;
   }
 }

@@ -1,48 +1,8 @@
-<div class="container" *ngIf="!tempo">
-  <div class="search-box">
-    <div class="search">
-      <form #form="ngForm" class="form">
-        <input type="text" placeholder="Buscar cidade" name="busca" [(ngModel)]="busca"/>
-        <button type="submit" (click)="pesquisarCidade()">Buscar</button>
-      </form>
-    </div>
-  </div>
-  <div class="main-content">
-    <div class="texto">
-      <h3>Curitiba, PR</h3>
-      <h1>10 ºC</h1>
-      <p>Tempo limpo</p>
-      <p class="text-icon"><i class="material-icons">calendar_month</i> 21/08/2022</p>
-      <p class="text-icon"><i class="material-icons">schedule</i> 03:54</p>
-    </div>
-    <div>
-      <i class="material-symbols-outlined icone">sunny</i>
-    </div>
-    
-  </div>
-  <div class="forecasts">
-    <div class="forecast">
-      <p>Seg</p>
-      <p>22/08</p>
-      <p>17 ºC / 9 ºC</p>
-    </div>
-    <div class="forecast">
-      <p>Ter</p>
-      <p>23/08</p>
-      <p>19 ºC / 10 ºC</p>
-    </div>
-    <div class="forecast">
-      <p>Qua</p>
-      <p>24/08</p>
-      <p>14 ºC / 10 ºC</p>
-    </div>
-  </div>
-</div>
 
 <div class="title">
   <h1>Tempo <i>app</i></h1>
 </div>
-<div class="container" *ngIf="tempo">
+<div class="container">
   <div class="search-box">
     <div class="search">
       <form #form="ngForm" class="form">
@@ -53,49 +13,54 @@
       </form>
     </div>
   </div>
-  <div class="main-content">
-    <div class="texto">
-      <h3>{{tempo.city}}</h3>
-      <h1>{{tempo.temp}} ºC</h1>
-      <div class="min-max">
-        <p>{{tempo.min}} ºC / {{tempo.max}} ºC</p>
-      </div>
-      <span class="text-icon">
-        <i class="material-icons icone-menor">calendar_month</i> 
-        {{tempo.date}}
-      </span>
-      <span class="text-icon">
-        <i class="material-icons icone-menor">schedule</i> 
-        {{tempo.time}}
-      </span>
-      
-    </div>
-    <div class="img-description">
-      <i class="material-symbols-outlined icone">{{tempo.condition_slug}}</i>
-      <p>{{tempo.description}}</p>
-    </div>
+  <div class="msg" *ngIf="mensagem">
+    <p>Não foi possível localizar a cidade.</p>
+    <button (click)="erro()" >
+      <i class="material-icons">close</i>
+    </button>
   </div>
-  <div class="forecasts">
-    <div class="forecast" *ngFor="let forecast of tempo.forecast">
-      <div class="sub-day-forecasts">
-        <h4>{{forecast.weekday}}</h4>
-        <i class="material-icons material-symbols-outlined icone-forecast">{{forecast.condition}}</i>
+  <div class="loading" *ngIf="loading">
+    <div class="loader"></div>
+  </div>
+  <div *ngIf="!loading">
+    <div class="content-div">
+      <div class="temp-date-div">
+        <div class="temp-div">
+          <p class="cidade-e-regiao">{{tempo.city}}, {{tempo.region}}</p>
+          <p class="temperatura">{{tempo.temp}}º</p>
+          <p class="temp-min-max"><b>{{tempo.max}}º</b> / {{tempo.min}}º</p>
+          <p class="data">{{tempo.date}}</p>
+        </div>
       </div>
-      <p>{{forecast.date}}</p>
-      <div class="max-min-temp">
-        <p>max</p>
-        <p>{{forecast.max}} ºC</p>
-      </div>
-      <div class="max-min-temp">
-        <p>min</p>
-        <p>{{forecast.min}} ºC</p>
+      <div class="temp-icon-div">
+        <img src="http://openweathermap.org/img/wn/{{tempo.icon}}@4x.png" />
+      </div> 
+    </div>
+    <div class="forecasts">
+      <div class="forecast" *ngFor="let f of tempo.forecast">
+        <div class="dia-e-icone">
+          <p class="dia-semana">{{f.weekday}}</p>
+          <img src="http://openweathermap.org/img/wn/{{f.icon}}.png" />
+        </div>
+        <div class="info">
+          <mat-divider style="background-color: var(--grey-border);"></mat-divider>
+          <p class="data" style="margin-top: .5rem">{{f.date}}</p>
+          <div class="max-min">
+            <p>max</p>
+            <p>{{f.max}}º</p>
+          </div>
+          <div class="max-min">
+            <p>min</p>
+            <p>{{f.min}}º</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="footer">
     <a href="https://github.com/gabrielgua" target="_blank" class="link">@gabrielgua</a>
     <span class="link">|</span>
-    <a href="https://github.com/gabrielgua/tempo" target="_blank" class="link">Git do projeto</a>
+    <a href="https://github.com/gabrielgua/root" target="_blank" class="link">Git do projeto</a>
   </div>
 </div>
 <router-outlet></router-outlet>

@@ -1,6 +1,15 @@
-export const API_CONFIG = {
-    apiBaseUrl: 'https://api.hgbrasil.com/weather?',
-    jsonFormatConfig: 'format=json-cors&',
-    customResponse: 'array_limit=4&fields=only_results,temp,city,date,forecast,max,min,description,time,weekday,condition_slug,condition&',
-    apiKey: 'key=ad46626c'
-}
+export const OPEN_WEATHER_API_CONFIG = {
+    baseUrl: 'https://api.openweathermap.org/data/3.0/onecall',
+    exclude: 'minutely,hourly,alerts',
+    units: 'metric',
+    lang: 'pt_br',
+    appid: 'd115e8171eaa3f11d90fd04d667eae35',
+};
+
+export const GEO_API_CONFIG = {
+    baseUrl: 'http://api.openweathermap.org/geo/1.0/',
+    limit: '1',
+    appid: 'd115e8171eaa3f11d90fd04d667eae35',
+};
+
+
